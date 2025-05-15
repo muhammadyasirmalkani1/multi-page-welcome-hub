@@ -30,9 +30,11 @@ const NavBar: React.FC = () => {
           <Link to="/login" className="hidden md:inline-block text-sm text-white/80 hover:text-white transition-colors">
             Log in
           </Link>
-          <Button className="bg-primary hover:bg-primary/90 text-white">
-            Get Started
-          </Button>
+          <Link to="/docs#get-started">
+            <Button className="bg-primary hover:bg-primary/90 text-white">
+              Get Started
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

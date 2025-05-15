@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import GetStarted from '@/components/GetStarted';
 
 const Docs = () => {
   return (
@@ -75,6 +76,9 @@ const Docs = () => {
                     </li>
                     <li>
                       <a href="#references" className="text-white/70 hover:text-white transition-colors">References</a>
+                    </li>
+                    <li>
+                      <a href="#get-started" className="text-white/70 hover:text-white transition-colors">Get Started</a>
                     </li>
                   </ul>
                 </div>
@@ -211,6 +215,9 @@ git push origin main`}
             </div>
           </div>
         </section>
+        
+        {/* Add Get Started Section */}
+        <GetStarted />
       </main>
       <Footer />
     </>
