@@ -1,13 +1,16 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import HelpSection from './HelpSection';
 import PopularTopics from './PopularTopics';
 import CodeBlock from './CodeBlock';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
+import { docsRouteMap } from './DocsContentMap';
 
 const DocsContent = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast({
@@ -17,6 +20,32 @@ const DocsContent = () => {
     });
   };
 
+  // If we have specific content for this route, show it
+  if (docsRouteMap[currentPath]) {
+    const { title, sections } = docsRouteMap[currentPath];
+    
+    return (
+      <section>
+        <div className="pb-8">
+          <h2 className="text-3xl font-bold mb-6">{title}</h2>
+          
+          <div className="space-y-12">
+            {sections.map((section) => (
+              <div key={section.id} id={section.id} className="p-6 rounded-lg border border-white/10 bg-card">
+                <h3 className="text-xl font-bold mb-4">{section.title}</h3>
+                <div className="text-white/80">{section.content}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <PopularTopics />
+        <HelpSection />
+      </section>
+    );
+  }
+
+  // Otherwise show default content for the main /docs route
   return (
     <section>
       <div id="getting-started" className="pb-12">

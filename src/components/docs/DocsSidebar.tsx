@@ -1,28 +1,54 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
 type SidebarSection = {
   title: string;
   id: string;
-  isActive?: boolean;
+  route?: string;
   items?: {
     title: string;
     id: string;
-    isActive?: boolean;
+    route?: string;
   }[];
 };
 
 const DocsSidebar = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  
   // Initial state for sections (expanded/collapsed)
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    gettingStarted: true,
+    'getting-started': true,
     repositories: false,
     pipelines: false,
     deployment: false,
     learn: false,
   });
+
+  // Automatically expand a section if the current route is part of that section
+  useEffect(() => {
+    const newExpandedSections = { ...expandedSections };
+    
+    if (currentPath.includes('/docs/installation') || currentPath.includes('/docs/quickstart')) {
+      newExpandedSections['getting-started'] = true;
+    }
+    
+    if (currentPath.includes('/docs/repositories')) {
+      newExpandedSections['repositories'] = true;
+    }
+    
+    if (currentPath.includes('/docs/pipelines')) {
+      newExpandedSections['pipelines'] = true;
+    }
+    
+    if (currentPath.includes('/docs/deployment')) {
+      newExpandedSections['deployment'] = true;
+    }
+    
+    setExpandedSections(newExpandedSections);
+  }, [currentPath]);
 
   const toggleSection = (section: string) => {
     setExpandedSections(prev => ({
@@ -35,10 +61,9 @@ const DocsSidebar = () => {
     {
       title: 'Getting Started',
       id: 'getting-started',
-      isActive: true,
       items: [
-        { title: 'Installation', id: 'installation' },
-        { title: 'Quick Start Guide', id: 'quickstart' },
+        { title: 'Installation', id: 'installation', route: '/docs/installation' },
+        { title: 'Quick Start Guide', id: 'quickstart', route: '/docs/quickstart' },
         { title: 'First Pipeline', id: 'first-pipeline' },
       ]
     },
@@ -46,16 +71,17 @@ const DocsSidebar = () => {
       title: 'Repositories',
       id: 'repositories',
       items: [
-        { title: 'Creating Repositories', id: 'creating-repos' },
-        { title: 'Managing Access', id: 'access-control' },
+        { title: 'Creating Repositories', id: 'creating-repos', route: '/docs/repositories/create' },
+        { title: 'Managing Access', id: 'access-control', route: '/docs/repositories/access' },
         { title: 'Branch Strategies', id: 'branch-strategies' },
       ]
     },
     {
       title: 'CI/CD Pipelines',
       id: 'pipelines',
+      route: '/docs/pipelines',
       items: [
-        { title: 'Configuration', id: 'pipeline-config' },
+        { title: 'Configuration', id: 'pipeline-config', route: '/docs/pipelines/configuration' },
         { title: 'Environment Variables', id: 'env-variables' },
         { title: 'Triggers & Webhooks', id: 'triggers' },
         { title: 'Monitoring & Logs', id: 'monitoring' },
@@ -65,7 +91,7 @@ const DocsSidebar = () => {
       title: 'Deployment',
       id: 'deployment',
       items: [
-        { title: 'Strategies', id: 'strategies' },
+        { title: 'Strategies', id: 'strategies', route: '/docs/deployment/strategies' },
         { title: 'Environments', id: 'environments' },
         { title: 'Rollbacks', id: 'rollbacks' },
         { title: 'Monitoring', id: 'deployment-monitoring' },
@@ -100,6 +126,12 @@ const DocsSidebar = () => {
       id: 'api',
     },
   ];
+  
+  // Helper to determine if a section or item is active
+  const isActive = (route?: string) => {
+    if (!route) return false;
+    return currentPath === route;
+  };
 
   return (
     <div className="sticky top-24">
@@ -110,12 +142,22 @@ const DocsSidebar = () => {
           {mainSections.map((section) => (
             <li key={section.id} className="mb-2">
               <div className="flex items-center justify-between">
-                <a 
-                  href={`#${section.id}`} 
-                  className={`text-${section.isActive ? 'primary' : 'white/70'} hover:text-white transition-colors font-medium`}
-                >
-                  {section.title}
-                </a>
+                {section.route ? (
+                  <Link 
+                    to={section.route} 
+                    className={`${isActive(section.route) ? 'text-primary' : 'text-white/70'} hover:text-white transition-colors font-medium`}
+                  >
+                    {section.title}
+                  </Link>
+                ) : (
+                  <a 
+                    href={`#${section.id}`} 
+                    className="text-white/70 hover:text-white transition-colors font-medium"
+                  >
+                    {section.title}
+                  </a>
+                )}
+                
                 {section.items && section.items.length > 0 && (
                   <button
                     onClick={() => toggleSection(section.id)}
@@ -135,12 +177,21 @@ const DocsSidebar = () => {
                 <ul className="ml-4 mt-1 space-y-1">
                   {section.items.map((item) => (
                     <li key={item.id}>
-                      <a
-                        href={`#${section.id}-${item.id}`}
-                        className={`text-sm text-${item.isActive ? 'white' : 'white/60'} hover:text-white block py-1 transition-colors`}
-                      >
-                        {item.title}
-                      </a>
+                      {item.route ? (
+                        <Link
+                          to={item.route}
+                          className={`text-sm ${isActive(item.route) ? 'text-white font-medium' : 'text-white/60'} hover:text-white block py-1 transition-colors`}
+                        >
+                          {item.title}
+                        </Link>
+                      ) : (
+                        <a
+                          href={`#${section.id}-${item.id}`}
+                          className="text-sm text-white/60 hover:text-white block py-1 transition-colors"
+                        >
+                          {item.title}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -158,7 +209,7 @@ const DocsSidebar = () => {
             <li key={section.id}>
               <a
                 href={`#${section.id}`}
-                className={`text-white/70 hover:text-white transition-colors block py-1`}
+                className="text-white/70 hover:text-white transition-colors block py-1"
               >
                 {section.title}
               </a>
