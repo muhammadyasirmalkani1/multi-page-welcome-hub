@@ -12,6 +12,7 @@ import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 
+// Create the query client
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -25,6 +26,13 @@ const App = () => (
           <Route path="/features" element={<Features />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/docs" element={<Docs />} />
+          <Route path="/docs/installation" element={<Docs />} />
+          <Route path="/docs/quickstart" element={<Docs />} />
+          <Route path="/docs/pipelines" element={<Docs />} />
+          <Route path="/docs/pipelines/configuration" element={<Docs />} />
+          <Route path="/docs/repositories/create" element={<Docs />} />
+          <Route path="/docs/repositories/access" element={<Docs />} />
+          <Route path="/docs/deployment/strategies" element={<Docs />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
