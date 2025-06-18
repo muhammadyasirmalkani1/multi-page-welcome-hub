@@ -24,6 +24,7 @@ const DocsSidebar = () => {
     repositories: false,
     pipelines: false,
     deployment: false,
+    security: false,
     learn: false,
   });
 
@@ -31,20 +32,24 @@ const DocsSidebar = () => {
   useEffect(() => {
     const newExpandedSections = { ...expandedSections };
     
-    if (currentPath.includes('/docs/installation') || currentPath.includes('/docs/quickstart')) {
+    if (currentPath.includes('/docs/installation') || currentPath.includes('/docs/quickstart') || currentPath.includes('/docs/first-pipeline')) {
       newExpandedSections['getting-started'] = true;
     }
     
-    if (currentPath.includes('/docs/repositories')) {
+    if (currentPath.includes('/docs/repositories') || currentPath.includes('/docs/branch-strategies')) {
       newExpandedSections['repositories'] = true;
     }
     
-    if (currentPath.includes('/docs/pipelines')) {
+    if (currentPath.includes('/docs/pipelines') || currentPath.includes('/docs/environment-variables') || currentPath.includes('/docs/triggers-webhooks') || currentPath.includes('/docs/monitoring-logs')) {
       newExpandedSections['pipelines'] = true;
     }
     
-    if (currentPath.includes('/docs/deployment')) {
+    if (currentPath.includes('/docs/deployment') || currentPath.includes('/docs/environments') || currentPath.includes('/docs/rollbacks')) {
       newExpandedSections['deployment'] = true;
+    }
+    
+    if (currentPath.includes('/docs/security')) {
+      newExpandedSections['security'] = true;
     }
     
     setExpandedSections(newExpandedSections);
@@ -64,7 +69,7 @@ const DocsSidebar = () => {
       items: [
         { title: 'Installation', id: 'installation', route: '/docs/installation' },
         { title: 'Quick Start Guide', id: 'quickstart', route: '/docs/quickstart' },
-        { title: 'First Pipeline', id: 'first-pipeline' },
+        { title: 'First Pipeline', id: 'first-pipeline', route: '/docs/first-pipeline' },
       ]
     },
     {
@@ -73,7 +78,7 @@ const DocsSidebar = () => {
       items: [
         { title: 'Creating Repositories', id: 'creating-repos', route: '/docs/repositories/create' },
         { title: 'Managing Access', id: 'access-control', route: '/docs/repositories/access' },
-        { title: 'Branch Strategies', id: 'branch-strategies' },
+        { title: 'Branch Strategies', id: 'branch-strategies', route: '/docs/branch-strategies' },
       ]
     },
     {
@@ -82,9 +87,9 @@ const DocsSidebar = () => {
       route: '/docs/pipelines',
       items: [
         { title: 'Configuration', id: 'pipeline-config', route: '/docs/pipelines/configuration' },
-        { title: 'Environment Variables', id: 'env-variables' },
-        { title: 'Triggers & Webhooks', id: 'triggers' },
-        { title: 'Monitoring & Logs', id: 'monitoring' },
+        { title: 'Environment Variables', id: 'env-variables', route: '/docs/environment-variables' },
+        { title: 'Triggers & Webhooks', id: 'triggers', route: '/docs/triggers-webhooks' },
+        { title: 'Monitoring & Logs', id: 'monitoring', route: '/docs/monitoring-logs' },
       ]
     },
     {
@@ -92,18 +97,17 @@ const DocsSidebar = () => {
       id: 'deployment',
       items: [
         { title: 'Strategies', id: 'strategies', route: '/docs/deployment/strategies' },
-        { title: 'Environments', id: 'environments' },
-        { title: 'Rollbacks', id: 'rollbacks' },
-        { title: 'Monitoring', id: 'deployment-monitoring' },
+        { title: 'Environments', id: 'environments', route: '/docs/environments' },
+        { title: 'Rollbacks', id: 'rollbacks', route: '/docs/rollbacks' },
       ]
     },
     {
       title: 'Security',
       id: 'security',
       items: [
-        { title: 'Best Practices', id: 'security-best-practices' },
-        { title: 'Secret Management', id: 'secrets' },
-        { title: 'Compliance', id: 'compliance' },
+        { title: 'Best Practices', id: 'security-best-practices', route: '/docs/security/best-practices' },
+        { title: 'Secret Management', id: 'secrets', route: '/docs/security/secrets' },
+        { title: 'Compliance', id: 'compliance', route: '/docs/security/compliance' },
       ]
     },
   ];

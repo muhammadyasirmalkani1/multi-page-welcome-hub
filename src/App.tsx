@@ -28,11 +28,21 @@ const App = () => (
           <Route path="/docs" element={<Docs />} />
           <Route path="/docs/installation" element={<Docs />} />
           <Route path="/docs/quickstart" element={<Docs />} />
+          <Route path="/docs/first-pipeline" element={<Docs />} />
           <Route path="/docs/pipelines" element={<Docs />} />
           <Route path="/docs/pipelines/configuration" element={<Docs />} />
           <Route path="/docs/repositories/create" element={<Docs />} />
           <Route path="/docs/repositories/access" element={<Docs />} />
+          <Route path="/docs/branch-strategies" element={<Docs />} />
+          <Route path="/docs/environment-variables" element={<Docs />} />
+          <Route path="/docs/triggers-webhooks" element={<Docs />} />
+          <Route path="/docs/monitoring-logs" element={<Docs />} />
           <Route path="/docs/deployment/strategies" element={<Docs />} />
+          <Route path="/docs/environments" element={<Docs />} />
+          <Route path="/docs/rollbacks" element={<Docs />} />
+          <Route path="/docs/security/best-practices" element={<Docs />} />
+          <Route path="/docs/security/secrets" element={<Docs />} />
+          <Route path="/docs/security/compliance" element={<Docs />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
